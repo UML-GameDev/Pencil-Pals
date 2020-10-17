@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class ConsoleController : MonoBehaviour
 {
+    private static Boolean hidden = true;
+
     // These are references to the TextMestPro input fields, usually you could assign them in the inspector by making them public but you cant assign static variable in the inspector.
     private static TMP_InputField inputField;
     private static TMP_InputField logField;
-    private static CharacterController character;
+    private static Player player;
+    public Animator animator;
 
     /*
      * This is a list of tuples (tuples are a way of packaging multiple variable into a single variable) that contain the command prefix as a string and an action (a pointer to a function without a return value)
@@ -33,7 +36,20 @@ public class ConsoleController : MonoBehaviour
                 logField = gameObj;
             }
         }
-        character = GameObject.Find("Character").GetComponent<CharacterController>();
+        player = GameObject.Find("Player").GetComponent<Player>();
+    }
+
+    /*
+     * If console button has been pushed deploy the console.
+     * Default console button is tab.
+     */
+    public void Update()
+    {
+        if (Input.GetButtonDown("Console"))
+        {
+            hidden = !hidden;
+            animator.SetBool("Hidden", hidden);
+        }
     }
 
     /*
@@ -42,7 +58,7 @@ public class ConsoleController : MonoBehaviour
      */
     public void done_edit(string str)
     {
-        logField.text += str + "\n";
+        logField.text += "Username@tablet>>" + str + "\n";
         detectCommand(str);
     }
 
