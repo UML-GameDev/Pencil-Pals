@@ -16,7 +16,7 @@ public class ConsoleController : MonoBehaviour
      * This is a list of tuples (tuples are a way of packaging multiple variable into a single variable) that contain the command prefix as a string and an action (a pointer to a function without a return value)
      * to be taken if that prefix is entered. The action allows a string to be passed in as context, for example youy could have: "noclip on" or "noclip off".
      */
-    private Tuple<string, Action<string>>[] commandPrefixes = {
+    private static Tuple<string, Action<string>>[] commandPrefixes = {
         Tuple.Create("noclip", new Action<string>(noclip))
     };
 
@@ -37,6 +37,15 @@ public class ConsoleController : MonoBehaviour
             }
         }
         player = GameObject.Find("Player").GetComponent<Player>();
+
+        string startingText = "Welcome Back CodeBreaker\nAvailable commands: ";
+
+        foreach (Tuple<string, Action<string>> command in commandPrefixes)
+        {
+            startingText += command.Item1 + " ";
+        }
+
+        logField.text = startingText + "\n";
     }
 
     /*
@@ -49,17 +58,29 @@ public class ConsoleController : MonoBehaviour
         {
             hidden = !hidden;
             animator.SetBool("Hidden", hidden);
+            if (!hidden)
+            {
+                inputField.ActivateInputField();
+            }
+        }
+        if (!hidden)
+        {
+            if (Input.GetButtonDown("Submit"))
+            {
+                submit(inputField.text);
+            }
         }
     }
 
     /*
-     * This function is called using the textmeshpro Text Area's 'On End Edit' function and passes a dynamic string to the function.
-     * This is the easiest way of detecting the user hitting the enter button however, it is also called if the user deselects or clicks off of the UI element so it wont be so helpfull long term.
+     * Function called when enter is pressed while console is deployed.
      */
-    public void done_edit(string str)
+    public void submit(string str)
     {
-        logField.text += "Username@tablet>>" + str + "\n";
+        logField.text += "CodeBreaker@" + str + "\n";
         detectCommand(str);
+        inputField.text = "";
+        inputField.ActivateInputField();
     }
 
     /*
@@ -74,16 +95,16 @@ public class ConsoleController : MonoBehaviour
                 tuple.Item2("");
                 return;
             }
-            else if(str.StartsWith(tuple.Item1))
+            else if (str.StartsWith(tuple.Item1))
             {
-                if(str[tuple.Item1.Length] == ' ')
+                if (str[tuple.Item1.Length] == ' ')
                 {
-                    tuple.Item2(str.Substring(tuple.Item1.Length+1));
+                    tuple.Item2(str.Substring(tuple.Item1.Length + 1));
                     return;
                 }
             }
         }
-        logField.text += "Not a valid command\n";
+        logField.text += "Invalid command\n";
     }
 
     /*
