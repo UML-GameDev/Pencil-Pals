@@ -502,7 +502,7 @@ MonoBehaviour:
       bevelSize: 0
       spriteIndex: 0
       corner: 1
-  m_SpriteShape: {fileID: 11400000, guid: ecf9da8dc13b5b74d8594110781028c5, type: 2}
+  m_SpriteShape: {fileID: 0}
   m_FillPixelPerUnit: 100
   m_StretchTiling: 1
   m_SplineDetail: 16
@@ -559,7 +559,7 @@ SpriteShapeRenderer:
   m_SortingOrder: 0
   m_Color: {r: 0.5235849, g: 0.9794486, b: 1, a: 1}
   m_MaskInteraction: 0
-  m_ShapeTexture: {fileID: 10309, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShapeTexture: {fileID: 0}
   m_Sprites: []
   m_LocalAABB:
     m_Center: {x: 0, y: -0.00000023841858, z: 0}
@@ -743,15 +743,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1731520354}
-  m_LocalRotation: {x: 0.0002774191, y: -0.0087221535, z: 0.03178898, w: -0.9994565}
+  m_LocalRotation: {x: 0, y: 0.008726558, z: 0, w: 0.999962}
   m_LocalPosition: {x: -1.78, y: -4.26, z: -4.1877612e-13}
   m_LocalScale: {x: 3.670235, y: 0.14448775, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 1, z: -3.6440003}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 1, z: 0}
 --- !u!1001 &4995532738705406193
 PrefabInstance:
   m_ObjectHideFlags: 0
