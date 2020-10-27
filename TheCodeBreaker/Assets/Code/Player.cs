@@ -5,12 +5,15 @@ using UnityEngine;
 [RequireComponent (typeof(Controller2D))]
 public class Player : MonoBehaviour
 {
-    float maxSpeed = 10;
-    float acceleration = 20;
-    float jumpVelocity = 12;
-    float friction = 10;
-    float airFriction = 2;
-    float gravity = -30;
+    float maxSpeed = 10f;
+    float acceleration = 20f;
+    float jumpVelocity = 20f;
+    float friction = 10f;
+    float airFriction = 2f;
+    float gravity = -40f;
+    float fallModifier = 2f;
+    bool shortHop = false;
+    float shortHopModifier = 3f;
     Vector3 velocity;
 
     Controller2D controller;
@@ -25,6 +28,14 @@ public class Player : MonoBehaviour
         if(controller.collisions.top || controller.collisions.bottom)
         {
             velocity.y = 0;
+        }
+
+        if(velocity.y > 0 && Input.GetButtonUp("Jump"))
+        {
+            shortHop = true;
+        } else if(velocity.y <= 0)
+        {
+            shortHop = false;
         }
 
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
@@ -48,7 +59,13 @@ public class Player : MonoBehaviour
             velocity.x -= Mathf.Sign(velocity.x) * Mathf.Abs(velocity.x) * airFriction * Time.deltaTime;
         }
 
-        velocity.y += gravity * Time.deltaTime;
+        if (velocity.y <= 0) {
+            velocity.y += (gravity * Time.deltaTime) * (fallModifier);
+        } else if (shortHop) {
+            velocity.y += (gravity * Time.deltaTime) * (shortHopModifier);
+        } else {
+            velocity.y += gravity * Time.deltaTime;
+        }
         controller.Move(velocity * Time.deltaTime);
     }
 }
