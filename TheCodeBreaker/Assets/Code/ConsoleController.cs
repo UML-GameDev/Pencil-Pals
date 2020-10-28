@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 
 public class ConsoleController : MonoBehaviour
 {
-    private static Boolean hidden = true;
+    private static bool hidden = true;
 
     // These are references to the TextMestPro input fields, usually you could assign them in the inspector by making them public but you cant assign static variable in the inspector.
     private static TMP_InputField inputField;
@@ -17,7 +18,10 @@ public class ConsoleController : MonoBehaviour
      * to be taken if that prefix is entered. The action allows a string to be passed in as context, for example youy could have: "noclip on" or "noclip off".
      */
     private static Tuple<string, Action<string>>[] commandPrefixes = {
-        Tuple.Create("noclip", new Action<string>(noclip))
+        Tuple.Create("runfast", new Action<string>(runfast)),
+        Tuple.Create("give", new Action<string>(give)),
+        Tuple.Create("rm", new Action<string>(remove)),
+        Tuple.Create("swap", new Action<string>(swap))
     };
 
     /*
@@ -108,11 +112,45 @@ public class ConsoleController : MonoBehaviour
     }
 
     /*
-     * This is a test/Example function to act as one of the actions for a command prefix.
-     * Note: all actions must be static
+     * Idea for implementation of setspeed
      */
-    private static void noclip(string context)
+    private static void runfast(string context)
     {
-        logField.text += "Do the Damn thing!\n";
+        float oldSpeed = 0;
+        logField.text += "Runfast enabled for 10  sec.";
+        //float oldspeed = player.getSpeed();
+        //player.setSpeed(oldspeed*2);
+
+        new Thread(()  =>
+        {
+            Thread.Sleep(20000);
+            //player.setSpeed(oldspeed);
+        }).Start();
+    }
+
+    /*
+     * Gives player items.
+     */
+    private static void give(string context)
+    {
+        //if context is a recognized item
+        //player.give(context)
+    }
+    /*
+     * Removes walls from vicinity of player.
+     */
+    private static void remove(string context)
+    {
+        // get player location
+        // determine if there are any glitched walls in the vicinity of player
+        // remove the glitched walls
+    }
+
+    /*
+     * flips flip flop/switching walls
+     */
+    private static void swap(string context)
+    {
+        // swap all switching walls
     }
 }
