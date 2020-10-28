@@ -66,6 +66,10 @@ public class ConsoleController : MonoBehaviour
             {
                 inputField.ActivateInputField();
             }
+            else
+            {
+                inputField.DeactivateInputField();
+            }
         }
         if (!hidden)
         {
@@ -84,7 +88,6 @@ public class ConsoleController : MonoBehaviour
         logField.text += "CodeBreaker@" + str + "\n";
         detectCommand(str);
         inputField.text = "";
-        inputField.ActivateInputField();
     }
 
     /*
@@ -97,6 +100,8 @@ public class ConsoleController : MonoBehaviour
             if (tuple.Item1.Equals(str))
             {
                 tuple.Item2("");
+                hidden = true;
+                animator.SetBool("Hidden", hidden);
                 return;
             }
             else if (str.StartsWith(tuple.Item1))
@@ -104,11 +109,14 @@ public class ConsoleController : MonoBehaviour
                 if (str[tuple.Item1.Length] == ' ')
                 {
                     tuple.Item2(str.Substring(tuple.Item1.Length + 1));
+                    hidden = true;
+                    animator.SetBool("Hidden", hidden);
                     return;
                 }
             }
         }
         logField.text += "Invalid command\n";
+        inputField.ActivateInputField();
     }
 
     /*
